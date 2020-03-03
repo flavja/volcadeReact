@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {getWaterfall, updateWaterfall} from "../actions/waterfallActions";
 import {Container, Button, Col, Form, FormGroup, Input, Label, Row} from "reactstrap";
-import mongoose from 'mongoose';
+import mongoose from "mongoose";
 
 class DetailsWaterfall extends Component {
 
@@ -13,12 +13,6 @@ class DetailsWaterfall extends Component {
         waterf: PropTypes.object.isRequired
     };
     state = {
-        title: '',
-        desc: '',
-        latitude: '',
-        longitude: '',
-        country: '',
-        height: '',
         isOnUpdate: false
     };
     currentWaterfall = null;
@@ -36,13 +30,18 @@ class DetailsWaterfall extends Component {
                 latitude: this.currentWaterfall.latitude,
                 longitude: this.currentWaterfall.longitude,
                 country: this.currentWaterfall.country,
-                height: this.currentWaterfall.height
+                height: this.currentWaterfall.height,
+                image: this.currentWaterfall.image
             });
         }
     }
 
     onChange = e => {
         this.setState({[e.target.name]: e.target.value});
+    };
+
+    onFileChange = e => {
+        this.setState({image: e.target.files[0]});
     };
 
     toggleUpdate = () => {
@@ -53,34 +52,36 @@ class DetailsWaterfall extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const {title, desc, country, latitude, longitude, height} = this.state;
+        const {title, desc, country, latitude, longitude, height, image} = this.state;
+        const added_by = mongoose.Types.ObjectId(this.currentVolcano.added_by);
         const {_id} = this.currentWaterfall;
-        this.updatedWaterfall = {
-            title,
-            desc,
-            latitude,
-            longitude,
-            country,
-            height,
-        };
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('desc', desc);
+        formData.append('country', country);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+        formData.append('height', height);
+        formData.append('added_by', added_by);
+        formData.append('image', image);
+        this.props.updateVolcano(_id, formData);
         this.props.updateWaterfall(_id, this.updatedWaterfall);
         this.toggleUpdate();
-        this.props.getWaterfall(_id);
-        this.forceUpdate();
     };
 
     render() {
-        const {title, desc, country, latitude, longitude, height} = this.state;
+        const {title, desc, country, latitude, longitude, height, image, isOnUpdate} = this.state;
         if (this.currentWaterfall) {
             const {user} = this.props.auth;
             const notAdminFormat = (<Fragment>
-                <h1>Waterfall's details :</h1>
-                <div>
+                <div style={{color: 'white'}}>
+                    <h1>Waterfall's details :</h1>
                     <p>{title}</p>
                     <p>{desc}</p>
-                    <p>COUNTRY : {country}</p>
                     <p>({latitude}°, {longitude}°)</p>
+                    <p>COUNTRY : {country}</p>
                     <p>HEIGHT : {height}</p>
+                    <img alt="imageVolcano" style={{maxWidth: '500px'}} src={`/assets/uploads/${image}`}/>
                 </div>
             </Fragment>);
             const adminFormat = (<Fragment>
@@ -149,6 +150,12 @@ class DetailsWaterfall extends Component {
                             </FormGroup>
                         </Col>
                     </Row>
+                    <FormGroup>
+                        <Label for="waterfallImage">Image</Label>
+                        <Input type="file" name="image" id="waterfallImage"
+                               className='mb-3'
+                               onChange={this.onFileChange}/>
+                    </FormGroup>
                     <Button
                         color="dark"
                         style={{marginTop: '2rem'}}
@@ -158,9 +165,9 @@ class DetailsWaterfall extends Component {
             </Fragment>);
             return (
                 <div>
-                    <Button onClick={this.toggleUpdate}>Update mode</Button>
+                    {user.isAdmin ? <Button onClick={this.toggleUpdate}>Update mode</Button> : null}
                     <Container>
-                        {user.isAdmin ? (this.state.isOnUpdate ? adminFormat : notAdminFormat) : notAdminFormat}
+                        {isOnUpdate ? adminFormat : notAdminFormat}
                     </Container>
                 </div>
             )

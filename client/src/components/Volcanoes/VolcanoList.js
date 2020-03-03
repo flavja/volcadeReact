@@ -28,6 +28,7 @@ class VolcanoList extends Component {
         if (this.props.volc) {
             const {isAuthenticated, user} = this.props.auth;
             const {volcanoes} = this.props.volc;
+
             return (
                 <div>
                     <VolcanoModal/>

@@ -13,13 +13,6 @@ class DetailsVolcano extends Component {
         volc: PropTypes.object.isRequired
     };
     state = {
-        title: '',
-        desc: '',
-        type: '',
-        latitude: '',
-        longitude: '',
-        country: '',
-        height: '',
         isOnUpdate: false
     };
     currentVolcano = null;
@@ -37,13 +30,18 @@ class DetailsVolcano extends Component {
                 latitude: this.currentVolcano.latitude,
                 longitude: this.currentVolcano.longitude,
                 country: this.currentVolcano.country,
-                height: this.currentVolcano.height
+                height: this.currentVolcano.height,
+                image: this.currentVolcano.image
             });
         }
     }
 
     onChange = e => {
         this.setState({[e.target.name]: e.target.value});
+    };
+
+    onFileChange = e => {
+        this.setState({image: e.target.files[0]});
     };
 
     toggleUpdate = () => {
@@ -54,34 +52,38 @@ class DetailsVolcano extends Component {
 
     onSubmit = e => {
         e.preventDefault();
-        const {title, desc, type, country, latitude, longitude, height} = this.state;
+        const {title, desc, type, country, latitude, longitude, height, image} = this.state;
         const {_id} = this.currentVolcano;
         const added_by = mongoose.Types.ObjectId(this.currentVolcano.added_by);
-        const updatedVolcano = {
-            title,
-            desc,
-            type,
-            latitude,
-            longitude,
-            country,
-            height,
-            added_by
-        };
-        this.props.updateVolcano(_id, updatedVolcano);
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('desc', desc);
+        formData.append('type', type);
+        formData.append('country', country);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+        formData.append('height', height);
+        formData.append('added_by', added_by);
+        formData.append('image', image);
+        this.props.updateVolcano(_id, formData);
+        this.toggleUpdate();
+        this.forceUpdate();
     };
 
     render() {
+        const {title, desc, type, country, latitude, longitude, height, image, isOnUpdate } = this.state;
         if (this.currentVolcano) {
             const {user} = this.props.auth;
             const notAdminFormat = (<Fragment>
-                <h1>Volcano's details :</h1>
-                <div>
-                    <p>{this.currentVolcano.title}</p>
-                    <p>{this.currentVolcano.desc}</p>
-                    <p>TYPE : {this.currentVolcano.type}</p>
-                    <p>({this.currentVolcano.latitude}°, {this.currentVolcano.longitude}°)</p>
-                    <p>COUNTRY : {this.currentVolcano.country}</p>
-                    <p>HEIGHT : {this.currentVolcano.height}</p>
+                <div style={{color: 'white'}}>
+                    <h1>Volcano's details :</h1>
+                    <p>{title}</p>
+                    <p>{desc}</p>
+                    <p>TYPE : {type}</p>
+                    <p>({latitude}°, {longitude}°)</p>
+                    <p>COUNTRY : {country}</p>
+                    <p>HEIGHT : {height}</p>
+                    <img alt="imageVolcano" style={{maxWidth: '500px'}} src={`/assets/uploads/${image}`}/>
                 </div>
             </Fragment>);
             const adminFormat = (<Fragment>
@@ -93,7 +95,7 @@ class DetailsVolcano extends Component {
                                 <Input type="text" name="title" id="volcanoTitle"
                                        placeholder="Volcano's title"
                                        className='mb-3'
-                                       value={this.state.title}
+                                       value={title}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -103,7 +105,7 @@ class DetailsVolcano extends Component {
                                 <Input type="textarea" name="desc" id="volcanoDesc"
                                        placeholder="Enter a description of the volcano"
                                        className='mb-3'
-                                       value={this.state.desc}
+                                       value={desc}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -115,7 +117,7 @@ class DetailsVolcano extends Component {
                                 <Input type="text" name="type" id="volcanoType"
                                        placeholder="What is the type of the volcano"
                                        className='mb-3'
-                                       value={this.state.type}
+                                       value={type}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -125,7 +127,7 @@ class DetailsVolcano extends Component {
                                 <Input type="text" name="country" id="volcanoCountry"
                                        placeholder="Country where the volcano is located"
                                        className='mb-3'
-                                       value={this.state.country}
+                                       value={country}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -137,7 +139,7 @@ class DetailsVolcano extends Component {
                                 <Input type="number" step="any" name="latitude" id="volcanoLatitude"
                                        placeholder="Latitude"
                                        className='mb-3'
-                                       value={this.state.latitude}
+                                       value={latitude}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -147,7 +149,7 @@ class DetailsVolcano extends Component {
                                 <Input type="number" step="any" name="longitude" id="volcanoLongitude"
                                        placeholder="Longitude"
                                        className='mb-3'
-                                       value={this.state.longitude}
+                                       value={longitude}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
@@ -156,11 +158,17 @@ class DetailsVolcano extends Component {
                                 <Label for="volcanoHeight">Height</Label>
                                 <Input type="number" step="any" name="height" id="volcanoHeight" placeholder="Height"
                                        className='mb-3'
-                                       value={this.state.height}
+                                       value={height}
                                        onChange={this.onChange}/>
                             </FormGroup>
                         </Col>
                     </Row>
+                    <FormGroup>
+                        <Label for="volcanoImage">Image</Label>
+                        <Input type="file" name="image" id="volcanoImage"
+                               className='mb-3'
+                               onChange={this.onFileChange}/>
+                    </FormGroup>
                     <Button
                         color="dark"
                         style={{marginTop: '2rem'}}
@@ -170,9 +178,9 @@ class DetailsVolcano extends Component {
             </Fragment>);
             return (
                 <div>
-                    <Button onClick={this.toggleUpdate}>Update mode</Button>
+                    {user.isAdmin ? <Button onClick={this.toggleUpdate}>Update mode</Button> : null}
                     <Container>
-                        {user.isAdmin ? (this.state.isOnUpdate ? adminFormat : notAdminFormat) : notAdminFormat}
+                        {isOnUpdate ? adminFormat : notAdminFormat}
                     </Container>
                 </div>
             )

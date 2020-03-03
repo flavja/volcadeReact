@@ -88,9 +88,7 @@ export const tokenConfig = getState => {
     const token = getState().auth.token;
     //headers
     const config = {
-        headers: {
-            'Content-Type': 'application/json'
-        }
+        headers: {}
     };
     //if token add to header
     if (token) {

@@ -16,16 +16,11 @@ import VolcanoDetails from "./pages/VolcanoDetails";
 import WaterfallList from "./components/Waterfalls/WaterfallList";
 import WaterfallDetails from "./pages/WaterfallDetails";
 import Container from "reactstrap/es/Container";
+import Profile from "./pages/Profile";
 
 const App = () => {
-
-    const state = {
-        user: ''
-    };
     useEffect(() => {
-        //if (state.user) {
-        //store.dispatch(loadUser());
-       // }
+        store.dispatch(loadUser());
     }, []);
     
     return (
@@ -40,7 +35,7 @@ const App = () => {
                         <Route path="/volcanoes/:id" exact component={VolcanoDetails}/>
                         <Route path="/waterfalls" exact component={WaterfallList}/>
                         <Route path="/waterfalls/:id" exact component={WaterfallDetails}/>
-                        <Route path="/profile" exact component={Home}/>
+                        <Route path="/profile" exact component={Profile}/>
                     </Switch>
                 </Container>
                 <Footer/>

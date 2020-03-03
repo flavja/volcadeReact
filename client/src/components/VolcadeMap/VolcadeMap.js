@@ -57,12 +57,12 @@ class VolcadeMap extends Component {
                         position={[latitude, longitude]}
                         icon={volcanoIcon}>
                         <Popup>
-                            {title}
+                            {title}<br/>({latitude},{longitude})°
                             {isAuthenticated ?
                                 <Link to={`/volcanoes/${_id}`}>
-                                    <Button>
-                                        See more
-                                    </Button>
+                                    <br/><Button>
+                                    See more
+                                </Button>
                                 </Link> : ''}
                         </Popup>
                     </Marker>
@@ -73,12 +73,12 @@ class VolcadeMap extends Component {
                         position={[latitude, longitude]}
                         icon={waterfallIcon}>
                         <Popup>
-                            {title}
+                            {title}<br/>({latitude},{longitude})°
                             {isAuthenticated ?
                                 <Link to={`/waterfalls/${_id}`}>
-                                    <Button>
-                                        See more
-                                    </Button>
+                                    <br/><Button>
+                                    See more
+                                </Button>
                                 </Link> : ''}
                         </Popup>
                     </Marker>

@@ -37,7 +37,7 @@ class WaterfallList extends Component {
                                 {waterfalls.map(({_id, title, latitude, longitude, country}) => (
                                     <CSSTransition key={_id} timeout={500} classNames="fade">
                                         <ListGroupItem>
-                                            <div>{title}, located
+                                            <div>{title}, is located
                                                 in {country} ({latitude}°, {longitude}°)
                                             </div>
                                             {user.isAdmin ? <Button

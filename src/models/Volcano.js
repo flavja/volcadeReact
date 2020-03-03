@@ -41,6 +41,9 @@ const volcanoSchema = new Schema({
     added_by: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User'
+    },
+    image: {
+        type: String
     }
 });
 

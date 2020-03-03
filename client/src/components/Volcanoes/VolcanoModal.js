@@ -14,6 +14,7 @@ import {
 import {connect} from 'react-redux';
 import {addVolcano, getVolcanoes} from "../../actions/volcanoActions";
 import PropTypes from 'prop-types';
+import FormText from "reactstrap/es/FormText";
 
 class VolcanoModal extends Component {
     static propTypes = {
@@ -23,9 +24,9 @@ class VolcanoModal extends Component {
     };
     state = {
         modal: false,
-        name: ''
+        name: '',
+        image: null
     };
-    newVolcano = {};
 
     toggle = () => {
         this.setState({
@@ -37,27 +38,31 @@ class VolcanoModal extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
+    onFileChange = e => {
+        this.setState({image: e.target.files[0]});
+    };
+
     onSubmit = e => {
         e.preventDefault();
         const {user} = this.props;
-        const {title, desc, type, country, latitude, longitude, height} = this.state;
+        const {title, desc, type, country, latitude, longitude, height, image} = this.state;
         const added_by = user._id;
-        this.newVolcano = {
-            title,
-            desc,
-            type,
-            latitude,
-            longitude,
-            country,
-            height,
-            added_by
-        };
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('desc', desc);
+        formData.append('type', type);
+        formData.append('country', country);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+        formData.append('height', height);
+        formData.append('added_by', added_by);
+        formData.append('image', image);
+
         //Add Volcano via addVolcano action
-        this.props.addVolcano(this.newVolcano);
+        this.props.addVolcano(formData);
         this.props.getVolcanoes();
 
         this.toggle();
-
     };
 
     render() {
@@ -145,10 +150,23 @@ class VolcanoModal extends Component {
                                         <Input type="number" step="any" name="height" id="volcanoHeight"
                                                placeholder="Height"
                                                className='mb-3'
-                                               onChange={this.onChange}/>
+                                               onChange={this.onChange}
+                                        />
                                     </FormGroup>
                                 </Col>
                             </Row>
+                            <FormGroup>
+                                <Label for="volcanoFile">File</Label>
+                                <Input type="file"
+                                       name="image"
+                                       id="volcanoFile"
+                                       className='mb-3'
+                                       onChange={this.onFileChange}
+                                />
+                                <FormText color="muted">
+                                    Choose a picture describing the volcano you're adding.
+                                </FormText>
+                            </FormGroup>
                             <Button
                                 color="dark"
                                 style={{marginTop: '2rem'}}

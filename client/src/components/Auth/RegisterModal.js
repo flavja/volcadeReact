@@ -148,6 +148,8 @@ class RegisterModal extends Component {
                                 block
                             >Register</Button>
                         </Form>
+                        <p>Après la connexion, merci de rafraichir la page pour une bonne utilisation de
+                            l'application</p>
                     </ModalBody>
                 </Modal>
             </div>

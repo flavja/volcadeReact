@@ -1,8 +1,15 @@
 html, #root{
     background-color: #626262;
 }
+a:link
+{
+    text-decoration:none;
+}
 .logoMenu{
-    width: 30%;
+    width: 28%;
+}
+.menuNav {
+    margin: 0 2.9em 0 0 ;
 }
 .remove-btn {
     margin-right: 0.5rem;

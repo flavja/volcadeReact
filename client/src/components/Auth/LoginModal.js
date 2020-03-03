@@ -22,7 +22,6 @@ class LoginModal extends Component {
 
     static propTypes = {
         isAuthenticated: PropTypes.bool,
-        isAdmin: PropTypes.bool,
         error: PropTypes.object.isRequired,
         login: PropTypes.func.isRequired,
         clearErrors: PropTypes.func.isRequired
@@ -117,6 +116,8 @@ class LoginModal extends Component {
                                 block
                             >Login</Button>
                         </Form>
+                        <p>Après la connexion, merci de rafraichir la page pour une bonne utilisation de
+                            l'application</p>
                     </ModalBody>
                 </Modal>
             </div>

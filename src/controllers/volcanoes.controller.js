@@ -11,7 +11,17 @@ class VolcanoesController {
      */
     static async create(req, res) {
         try {
-            const volcano = await Volcano.create(req.body);
+            const volcano = await Volcano.create({
+                title: req.body.title,
+                desc: req.body.desc,
+                type: req.body.type,
+                country: req.body.country,
+                latitude: req.body.latitude,
+                longitude: req.body.longitude,
+                height: req.body.height,
+                added_by: req.body.added_by,
+                image: req.file && req.file.filename
+            });
             if (!volcano) throw Error('Trouble during creation');
             res.status(200).json(volcano);
         } catch (error) {
@@ -62,6 +72,9 @@ class VolcanoesController {
     };
 
     static async update(req, res) {
+        if(req.file) {
+            req.body.image = req.file.filename
+        };
         try {
             const volcano = await Volcano.findByIdAndUpdate(req.params._id, {$set: req.body}, {new: true});
             res.status(200).json(volcano);

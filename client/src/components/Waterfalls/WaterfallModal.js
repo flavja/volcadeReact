@@ -14,6 +14,7 @@ import {
 import {connect} from 'react-redux';
 import {addWaterfall, getWaterfalls} from "../../actions/waterfallActions";
 import PropTypes from 'prop-types';
+import FormText from "reactstrap/es/FormText";
 
 class WaterfallModal extends Component {
     static propTypes = {
@@ -23,9 +24,9 @@ class WaterfallModal extends Component {
     };
     state = {
         modal: false,
-        name: ''
+        name: '',
+        image: ''
     };
-    newWaterfall = {};
 
     toggle = () => {
         this.setState({
@@ -37,26 +38,29 @@ class WaterfallModal extends Component {
         this.setState({[e.target.name]: e.target.value});
     };
 
+    onFileChange = e => {
+        this.setState({image: e.target.files[0]});
+    };
+
     onSubmit = e => {
         e.preventDefault();
         const {user} = this.props;
-        const {title, desc, country, latitude, longitude, height} = this.state;
+        const {title, desc, country, latitude, longitude, height, image} = this.state;
         const added_by = user._id;
-        this.newWaterfall = {
-            title,
-            desc,
-            latitude,
-            longitude,
-            country,
-            height,
-            added_by
-        };
+        const formData = new FormData();
+        formData.append('title', title);
+        formData.append('desc', desc);
+        formData.append('country', country);
+        formData.append('latitude', latitude);
+        formData.append('longitude', longitude);
+        formData.append('height', height);
+        formData.append('added_by', added_by);
+        formData.append('image', image);
         //Add Waterfall via addWaterfall action
-        this.props.addWaterfall(this.newWaterfall);
+        this.props.addWaterfall(formData);
         this.props.getWaterfalls();
 
         this.toggle();
-        this.forceUpdate();
     };
 
     render() {
@@ -138,6 +142,18 @@ class WaterfallModal extends Component {
                                     </FormGroup>
                                 </Col>
                             </Row>
+                            <FormGroup>
+                                <Label for="waterfallFile">File</Label>
+                                <Input type="file"
+                                       name="image"
+                                       id="waterfallFile"
+                                       className='mb-3'
+                                       onChange={this.onFileChange}
+                                />
+                                <FormText color="muted">
+                                    Choose a picture describing the waterfall you're adding.
+                                </FormText>
+                            </FormGroup>
                             <Button
                                 color="dark"
                                 style={{marginTop: '2rem'}}

@@ -8,6 +8,7 @@ const app = express();
 
 app.use(express.json());
 app.use(cors({origin: true}));
+app.use('/client/public/assets/uploads', express.static('uploads'));
 app.use(routes);
 const PORT = 3001;
 

@@ -11,7 +11,16 @@ class WaterfallsController {
      */
     static async create(req, res) {
         try {
-            const waterfall = await Waterfall.create(req.body);
+            const waterfall = await Waterfall.create({
+                title: req.body.title,
+                desc: req.body.desc,
+                country: req.body.country,
+                latitude: req.body.latitude,
+                longitude: req.body.longitude,
+                height: req.body.height,
+                added_by: req.body.added_by,
+                image: req.file && req.file.filename
+            });
             if (!waterfall) throw Error('Trouble during creation');
             res.status(200).json(waterfall);
         } catch (error) {
@@ -62,6 +71,9 @@ class WaterfallsController {
     };
 
     static async update(req, res) {
+        if(req.file) {
+            req.body.image = req.file.filename
+        };
         try {
             const waterfall = await Waterfall.findByIdAndUpdate(req.params.id, {$set: req.body}, {new: true});
             res.status(200).json(waterfall);

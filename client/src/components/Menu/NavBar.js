@@ -14,7 +14,7 @@ import LoginModal from "../Auth/LoginModal";
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import {Link} from "react-router-dom";
-import VolcadeMap from "../VolcadeMap/VolcadeMap";
+import Button from "reactstrap/es/Button";
 
 class NavBar extends Component {
 
@@ -37,15 +37,39 @@ class NavBar extends Component {
         const authLinks = (
             <Fragment>
                 <Nav className="ml-auto" navbar>
-                    <Link to={'/volcanoes'}>Volcanoes list</Link>
-                    <Link to={'/waterfalls'}>Waterfalls list</Link>
-                    <Link to={'/online-map'}>Map</Link>
+                    <NavItem className="menuNav">
+                        <Link to={'/volcanoes'}>
+                            <Button outline color="info">
+                                Volcanoes list
+                            </Button>
+                        </Link>
+                    </NavItem>
+                    <NavItem className="menuNav"><Link to={'/waterfalls'}>
+                        <Button outline color="info">
+                            Waterfalls list
+                        </Button>
+                    </Link>
+                    </NavItem>
+                    <NavItem className="menuNav">
+                        <Link to={'/online-map'}>
+                            <Button outline color="info">Online Map
+                            </Button>
+                        </Link>
+                    </NavItem>
+
                     <NavItem>
-                    <span className="navbar-text">
+                    <span className="navbar-text menuNav">
                         <strong>{user ? `Connected as ${user.isAdmin ? 'ADMIN' : 'USER'}: ${user.firstname} ${user.lastname} (${user.email})` : ''}</strong>
                     </span>
                     </NavItem>
-                    <Link to={'/profile'}>My profile</Link>
+
+                    <NavItem className="menuNav">
+                        <Button outline color="info">
+                            <Link to={'/profile'}>
+                                My profile
+                            </Link>
+                        </Button>
+                    </NavItem>
                     <NavItem>
                         <Logout/>
                     </NavItem>
@@ -68,7 +92,7 @@ class NavBar extends Component {
         return (
             <div>
                 <Navbar color="dark" dark expand="sm" className="mb-5">
-                    <NavbarBrand href="/"><img className="logoMenu" src="/logovolcade.png" />Volcade</NavbarBrand>
+                    <NavbarBrand href="/"><img className="logoMenu" src="/logovolcade.png"/>Volcade</NavbarBrand>
                     <Container>
                         <NavbarToggler onClick={this.toggle}/>
                         <Collapse isOpen={this.state.isOpen} navbar>
