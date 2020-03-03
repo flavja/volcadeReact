@@ -1,10 +1,10 @@
 # volcadeReact
 React project made for Hitema, 02/2020
 
-Après avoir cloné le repo, se placer dans le dossier apiVolcade et lancer les commandes suivantes : 
+Après avoir cloné le repo, se placer à la racine et lancer les commandes suivantes : 
   - npm install              //installe node_modules back
-  - npm run client-install   //installe node_modules front
-  - npm run dev              // lance le front et le back en meme temps
+  - npm run client-install   //installe node_modules front (dossier client)
+  - npm run dev              //lance le front et le back en meme temps
   
   Après une authentification sur l'interface, merci de rafraichir la page pour permettre une correcte utilisation de l'appli
   il y a une erreur que je n'ai pas eu le temps de corriger qui sauvegarge un user.id dans le state auth au login et register,
