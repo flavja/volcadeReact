@@ -18,3 +18,14 @@ Après avoir cloné le repo, se placer à la racine et lancer les commandes suiv
   Un administrateur pourra également supprimer ces volcans et cascades.
   
   
+  Problèmes rencontrés : 
+  J'ai choisi d'utiliser Redux pour en découvrir les bases en même temps que React.
+  Je continuais d'apprendre des nouvelles choses au fur et à mesure que je l'implémentais,
+  ce qui impliquait des retours des lignes déjà codées pour corriger ou améliorer.
+  Mais au fur et a mesure de l'ajout de composant, j'ai commencé à m'embrouiller et j'ai l'impression d'avoir mélangé un peu le redux et non redux, ce qui m'a fait perdre beaucoup de temps. 
+  Par manque de temps, j'ai donc laissé de côté le design des derniers éléments.
+  Egalement, certains de mes composants se ressemblent, mais je ne voyais pas comment faire pour en utiliser un seul différement.
+  
+  Point positif: 
+  Intéressante découverte personnelle de React (et Redux), je commencais à découvrir le js au travers d'Angular mais React semble très différent d'utilisation
+  
