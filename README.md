@@ -1,6 +1,8 @@
 # volcadeReact
 React project made for Hitema, 02/2020
-
+comptes :
+- Utilisateur = user@test.fr:root
+- Administrateur = fj@test.fr:root
 Après avoir cloné le repo, se placer à la racine et lancer les commandes suivantes : 
   - npm install              //installe node_modules back
   - npm run client-install   //installe node_modules front (dossier client)
