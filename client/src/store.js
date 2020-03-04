@@ -15,8 +15,8 @@ const store = createStore(rootReducer, persistedState, compose(
 store.subscribe(() => {
     saveState({
         auth: store.getState().auth,
-        //volc: store.getState().volc,
-        //waterf: store.getState().waterf
+        volc: store.getState().volc,
+        waterf: store.getState().waterf
     });
 });
 
