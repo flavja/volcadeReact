@@ -8,7 +8,8 @@ Après avoir cloné le repo, se placer à la racine et lancer les commandes suiv
   - npm run client-install   //installe node_modules front (dossier client)
   - npm run dev              //lance le front et le back en meme temps
   
-  Après une authentification sur l'interface, merci de rafraichir la page pour permettre une correcte utilisation de l'appli
+ 
+Après une authentification sur l'interface, merci de rafraichir la page pour permettre une correcte utilisation de l'appli
   il y a une erreur que je n'ai pas eu le temps de corriger qui sauvegarge un user.id dans le state auth au login et register,
   tandis que le load de l'utilisateur courant sauvegarde un user._id, qui sera l'id utilisé pour parcourir l'application
   
