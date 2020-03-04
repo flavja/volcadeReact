@@ -8,6 +8,7 @@ Après avoir cloné le repo, se placer à la racine et lancer les commandes suiv
   - npm run client-install   //installe node_modules front (dossier client)
   - npm run dev              //lance le front et le back en meme temps
   
+Dans le client/src/store.js, j'ai défini le store avec l'extension redux "window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()", il est nécessaire de l'installer pour parcourir l'interface
  
 Après une authentification sur l'interface, merci de rafraichir la page pour permettre une correcte utilisation de l'appli
   il y a une erreur que je n'ai pas eu le temps de corriger qui sauvegarge un user.id dans le state auth au login et register,
